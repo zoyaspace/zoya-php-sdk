@@ -20,30 +20,34 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Prism CLI
+        run: npm install --global @stoplight/prism-cli
+
       - name: Start Prism mock server
         run: |
-          docker run -d --rm \
-            --name zoya-prism \
-            -p 4010:4010 \
-            -v "$PWD/openapi:/tmp/openapi" \
-            stoplight/prism:5 \
-            mock -h 0.0.0.0 /tmp/openapi/openapi.yaml
+          prism mock -h 0.0.0.0 openapi/openapi.yaml >/tmp/prism.log 2>&1 &
+          echo $! > /tmp/prism.pid
 
       - name: Wait for mock server
         run: |
           for i in $(seq 1 20); do
-            if curl -fsS http://127.0.0.1:4010/investments >/tmp/prism.out 2>/tmp/prism.err; then
+            if curl -fsS http://127.0.0.1:4010/public/v1/investments >/tmp/prism.out 2>/tmp/prism.err; then
               exit 0
             fi
             sleep 1
           done
           cat /tmp/prism.err || true
-          docker logs zoya-prism || true
+          cat /tmp/prism.log || true
           exit 1
 
       - name: Smoke test list endpoint
         run: |
-          curl -fsS http://127.0.0.1:4010/investments > /tmp/investments.json
+          curl -fsS http://127.0.0.1:4010/public/v1/investments > /tmp/investments.json
           grep '"data"' /tmp/investments.json
 
       - name: Smoke test create endpoint
@@ -52,9 +56,16 @@ jobs:
             -X POST \
             -H 'Content-Type: application/json' \
             -d '{"contact_name":"Jan Kowalski"}' \
-            http://127.0.0.1:4010/leads > /tmp/leads.json
+            http://127.0.0.1:4010/public/v1/leads > /tmp/leads.json
           grep '"id"' /tmp/leads.json
 
       - name: Show Prism logs on failure
         if: failure()
-        run: docker logs zoya-prism
+        run: cat /tmp/prism.log
+
+      - name: Stop Prism mock server
+        if: always()
+        run: |
+          if [ -f /tmp/prism.pid ]; then
+            kill "$(cat /tmp/prism.pid)" || true
+          fi
