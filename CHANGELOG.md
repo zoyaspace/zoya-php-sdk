@@ -2,6 +2,12 @@
 
 All notable changes to this package will be documented in this file.
 
+## 0.1.1
+
+- lowered the runtime requirement from PHP 8.3 to PHP 8.2
+- aligned CI and development dependencies with PHP 8.2
+- kept the SDK API surface unchanged while broadening compatibility
+
 ## 0.1.0
 
 - introduced the first public SDK foundation for the Zoya public API
