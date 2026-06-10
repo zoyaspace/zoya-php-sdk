@@ -18,7 +18,6 @@ final class ZoyaClientFactoryTest extends TestCase
             apiToken: 'zya_test.secret',
             environment: ZoyaEnvironment::Development,
             apiVersion: 'v1',
-            userAgent: 'zoya-sdk-tests/1.0',
         );
 
         self::assertInstanceOf(ZoyaClient::class, $client);

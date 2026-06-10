@@ -9,6 +9,7 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Symfony\Component\HttpClient\Psr18Client;
 use Zoya\Sdk\Auth\ApiKeyAuthenticator;
 use Zoya\Sdk\Http\Psr18Transport;
+use Zoya\Sdk\Support\UserAgent;
 
 final class ZoyaClientFactory
 {
@@ -16,7 +17,7 @@ final class ZoyaClientFactory
         string $apiToken,
         ZoyaEnvironment $environment = ZoyaEnvironment::Production,
         string $apiVersion = 'v1',
-        string $userAgent = 'zoya-php-sdk/0.1.0',
+        ?string $userAgent = null,
         string $accept = 'application/json',
         ?string $baseUrlOverride = null,
     ): ZoyaClient {
@@ -30,7 +31,7 @@ final class ZoyaClientFactory
             config: new ZoyaClientConfig(
                 environment: $environment,
                 apiVersion: $apiVersion,
-                userAgent: $userAgent,
+                userAgent: $userAgent ?? UserAgent::default(),
                 accept: $accept,
                 baseUrlOverride: $baseUrlOverride,
             ),

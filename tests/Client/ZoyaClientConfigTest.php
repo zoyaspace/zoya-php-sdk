@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Zoya\Sdk\Client\ZoyaClientConfig;
 use Zoya\Sdk\Client\ZoyaEnvironment;
+use Zoya\Sdk\Support\UserAgent;
 
 final class ZoyaClientConfigTest extends TestCase
 {
@@ -16,6 +17,7 @@ final class ZoyaClientConfigTest extends TestCase
         $config = new ZoyaClientConfig();
 
         self::assertSame('https://api.zoyaspace.com/public/v1', $config->baseUri());
+        self::assertSame(UserAgent::default(), $config->userAgent);
     }
 
     public function testItMapsTheDevelopmentEnvironmentToTheDevelopmentApi(): void
@@ -43,6 +45,13 @@ final class ZoyaClientConfigTest extends TestCase
         );
 
         self::assertSame('https://mock.zoya.test/public/v1', $config->baseUri());
+    }
+
+    public function testItAllowsOverridingTheUserAgent(): void
+    {
+        $config = new ZoyaClientConfig(userAgent: 'zoya-api-test/1.0');
+
+        self::assertSame('zoya-api-test/1.0', $config->userAgent);
     }
 
     public function testItRejectsAnInvalidApiVersion(): void
