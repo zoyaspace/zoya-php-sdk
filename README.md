@@ -45,6 +45,14 @@ composer test
 
 ## Installation
 
+After the package is submitted to Packagist, the standard installation command is:
+
+```bash
+composer require zoyaspace/zoya-php-sdk
+```
+
+Until Packagist has indexed the package, you can use the GitHub VCS repository directly:
+
 Via Composer VCS repository:
 
 ```json
@@ -67,7 +75,7 @@ Then install dependencies:
 composer install
 ```
 
-After the first stable tag is published, prefer a version constraint such as `^0.1` instead of `dev-main`.
+After the first stable tag is published and Packagist has indexed the package, prefer a version constraint such as `^0.1` instead of `dev-main`.
 
 ## Quick Start
 
