@@ -38,7 +38,7 @@ jobs:
           for i in $(seq 1 20); do
             if curl -fsS \
               -H 'X-Zoya-Api-Key: prism-test-token' \
-              http://127.0.0.1:4010/public/v1/investments >/tmp/prism.out 2>/tmp/prism.err; then
+              http://127.0.0.1:4010/investments >/tmp/prism.out 2>/tmp/prism.err; then
               exit 0
             fi
             sleep 1
@@ -51,7 +51,7 @@ jobs:
         run: |
           curl -fsS \
             -H 'X-Zoya-Api-Key: prism-test-token' \
-            http://127.0.0.1:4010/public/v1/investments > /tmp/investments.json
+            http://127.0.0.1:4010/investments > /tmp/investments.json
           grep '"data"' /tmp/investments.json
 
       - name: Smoke test create endpoint
@@ -61,7 +61,7 @@ jobs:
             -H 'Content-Type: application/json' \
             -H 'X-Zoya-Api-Key: prism-test-token' \
             -d '{"contact_name":"Jan Kowalski"}' \
-            http://127.0.0.1:4010/public/v1/leads > /tmp/leads.json
+            http://127.0.0.1:4010/leads > /tmp/leads.json
           grep '"id"' /tmp/leads.json
 
       - name: Show Prism logs on failure
