@@ -1,0 +1,60 @@
+name: SDK OpenAPI Mock
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mock:
+    name: Boot Prism Mock And Smoke Test Contract
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start Prism mock server
+        run: |
+          docker run -d --rm \
+            --name zoya-prism \
+            -p 4010:4010 \
+            -v "$PWD/openapi:/tmp/openapi" \
+            stoplight/prism:5 \
+            mock -h 0.0.0.0 /tmp/openapi/openapi.yaml
+
+      - name: Wait for mock server
+        run: |
+          for i in $(seq 1 20); do
+            if curl -fsS http://127.0.0.1:4010/investments >/tmp/prism.out 2>/tmp/prism.err; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/prism.err || true
+          docker logs zoya-prism || true
+          exit 1
+
+      - name: Smoke test list endpoint
+        run: |
+          curl -fsS http://127.0.0.1:4010/investments > /tmp/investments.json
+          grep '"data"' /tmp/investments.json
+
+      - name: Smoke test create endpoint
+        run: |
+          curl -fsS \
+            -X POST \
+            -H 'Content-Type: application/json' \
+            -d '{"contact_name":"Jan Kowalski"}' \
+            http://127.0.0.1:4010/leads > /tmp/leads.json
+          grep '"id"' /tmp/leads.json
+
+      - name: Show Prism logs on failure
+        if: failure()
+        run: docker logs zoya-prism

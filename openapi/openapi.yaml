@@ -1,0 +1,1155 @@
+openapi: 3.1.0
+info:
+  title: Zoya API
+  version: 0.1.0
+  summary: Contract scaffold for the public Zoya API.
+  description: >
+    Initial OpenAPI contract used as the source of truth for the future PHP SDK,
+    backend contract discussions, and mock-server based integration testing.
+
+servers:
+  - url: https://api.zoyaspace.com/public/v1
+    description: Production public API
+  - url: https://api-dev.zoyaspace.com/public/v1
+    description: Development public API
+
+security:
+  - apiKeyAuth: []
+
+tags:
+  - name: Leads
+    description: Public lead intake endpoints.
+  - name: Products
+    description: Public product endpoints.
+  - name: LeadSources
+    description: Public lead source endpoints.
+  - name: SalesChannels
+    description: Public sales channel endpoints.
+  - name: PropertyBuildings
+    description: Public property building endpoints.
+  - name: PropertyInvestments
+    description: Public property investment endpoints.
+  - name: PropertyUnits
+    description: Public property unit endpoints.
+
+paths:
+  /products:
+    get:
+      tags:
+        - Products
+      operationId: listProducts
+      summary: List products
+      description: Returns a paginated list of products visible for the current API credential.
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/SortProducts'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: A paginated list of products.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCollectionResponse'
+  /products/{productId}:
+    get:
+      tags:
+        - Products
+      operationId: getProduct
+      summary: Get product
+      description: Returns one product visible for the current API credential.
+      parameters:
+        - $ref: '#/components/parameters/ProductId'
+      responses:
+        '200':
+          description: A product object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetail'
+  /investments:
+    get:
+      tags:
+        - PropertyInvestments
+      operationId: listPropertyInvestments
+      summary: List property investments
+      description: Returns a paginated list of property investments visible for the current API credential.
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/SortInvestments'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: A paginated list of property investments.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyInvestmentCollectionResponse'
+  /investments/{propertyInvestmentId}:
+    get:
+      tags:
+        - PropertyInvestments
+      operationId: getPropertyInvestment
+      summary: Get property investment
+      description: Returns one property investment visible for the current API credential.
+      parameters:
+        - $ref: '#/components/parameters/PropertyInvestmentId'
+      responses:
+        '200':
+          description: A property investment object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyInvestmentDetail'
+  /buildings:
+    get:
+      tags:
+        - PropertyBuildings
+      operationId: listPropertyBuildings
+      summary: List property buildings
+      description: Returns a paginated list of property buildings visible for the current API credential.
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/SortBuildings'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: A paginated list of property buildings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyBuildingCollectionResponse'
+  /buildings/{propertyBuildingId}:
+    get:
+      tags:
+        - PropertyBuildings
+      operationId: getPropertyBuilding
+      summary: Get property building
+      description: Returns one property building visible for the current API credential.
+      parameters:
+        - $ref: '#/components/parameters/PropertyBuildingId'
+      responses:
+        '200':
+          description: A property building object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyBuildingDetail'
+  /units:
+    get:
+      tags:
+        - PropertyUnits
+      operationId: listPropertyUnits
+      summary: List property units
+      description: Returns a paginated list of property units visible for the current API credential.
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/SortUnits'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: A paginated list of property units.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyUnitCollectionResponse'
+  /units/{propertyUnitId}:
+    get:
+      tags:
+        - PropertyUnits
+      operationId: getPropertyUnit
+      summary: Get property unit
+      description: Returns one property unit visible for the current API credential.
+      parameters:
+        - $ref: '#/components/parameters/PropertyUnitId'
+      responses:
+        '200':
+          description: A property unit object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyUnitDetail'
+  /lead-sources:
+    get:
+      tags:
+        - LeadSources
+      operationId: listLeadSources
+      summary: List lead sources
+      description: Returns a paginated list of lead sources visible for the current API credential.
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: A paginated list of lead sources.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadSourceCollectionResponse'
+  /lead-sources/{leadSourceId}:
+    get:
+      tags:
+        - LeadSources
+      operationId: getLeadSource
+      summary: Get lead source
+      description: Returns one lead source visible for the current API credential.
+      parameters:
+        - $ref: '#/components/parameters/LeadSourceId'
+      responses:
+        '200':
+          description: A lead source object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadSource'
+  /sales-channels:
+    get:
+      tags:
+        - SalesChannels
+      operationId: listSalesChannels
+      summary: List sales channels
+      description: Returns a paginated list of sales channels visible for the current API credential.
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: A paginated list of sales channels.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalesChannelCollectionResponse'
+  /sales-channels/{salesChannelId}:
+    get:
+      tags:
+        - SalesChannels
+      operationId: getSalesChannel
+      summary: Get sales channel
+      description: Returns one sales channel visible for the current API credential.
+      parameters:
+        - $ref: '#/components/parameters/SalesChannelId'
+      responses:
+        '200':
+          description: A sales channel object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalesChannel'
+  /leads:
+    post:
+      tags:
+        - Leads
+      operationId: createLead
+      summary: Create lead
+      description: Creates a lead in the tenant context allowed by the API credential.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLeadRequest'
+      responses:
+        '201':
+          description: A newly created lead.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lead'
+        '401':
+          description: Invalid public API credential.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Permission, organization, timing, or IP restriction failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Public API rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Zoya-Api-Key
+
+  parameters:
+    Search:
+      name: search
+      in: query
+      schema:
+        type: string
+    PageNumber:
+      name: page[number]
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+    PageSize:
+      name: page[size]
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+    SortInvestments:
+      name: sort
+      in: query
+      schema:
+        type: string
+        enum: [created_at, -created_at, updated_at, -updated_at, name, -name, code, -code, city, -city, start_date, -start_date, status, -status, heat_score, -heat_score]
+    SortBuildings:
+      name: sort
+      in: query
+      schema:
+        type: string
+        enum: [name, -name, status, -status, units_count, -units_count, created_at, -created_at]
+    SortUnits:
+      name: sort
+      in: query
+      schema:
+        type: string
+        enum: [number, -number, status, -status, heat_score, -heat_score, room_count, -room_count, floor, -floor, usable_area, -usable_area, total_area, -total_area, price_amount, -price_amount, created_at, -created_at]
+    SortProducts:
+      name: sort
+      in: query
+      schema:
+        type: string
+        enum: [created_at, -created_at, name, -name, type, -type, status, -status, price_amount, -price_amount]
+    ProductId:
+      name: productId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/PublicId'
+    PropertyInvestmentId:
+      name: propertyInvestmentId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/PublicId'
+    PropertyBuildingId:
+      name: propertyBuildingId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/PublicId'
+    PropertyUnitId:
+      name: propertyUnitId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/PublicId'
+    LeadSourceId:
+      name: leadSourceId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/PublicId'
+    SalesChannelId:
+      name: salesChannelId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/PublicId'
+
+  schemas:
+    PublicId:
+      type: string
+      pattern: '^[a-z]+_[a-z0-9]{24}$'
+      examples:
+        - piv_7x2c6q1m0r3n8v5k9d4s1b2a
+
+    Timestamp:
+      type: string
+      format: date-time
+      examples:
+        - '2026-06-09T20:00:00Z'
+
+    CollectionMeta:
+      type: object
+      additionalProperties: false
+      required:
+        - current_page
+        - from
+        - last_page
+        - path
+        - per_page
+        - to
+        - total
+      properties:
+        current_page:
+          type: integer
+        from:
+          type: integer
+          nullable: true
+        last_page:
+          type: integer
+        path:
+          type: string
+          format: uri
+        per_page:
+          type: integer
+        to:
+          type: integer
+          nullable: true
+        total:
+          type: integer
+
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - message
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+
+    Product:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - type
+        - name
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicId'
+        type:
+          type: string
+          enum: [products]
+        organization_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        organization_name:
+          type: string
+          nullable: true
+        name:
+          type: string
+        slug:
+          type: string
+          nullable: true
+        sku:
+          type: string
+          nullable: true
+        category_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        category_name:
+          type: string
+          nullable: true
+        product_type:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        availability_status:
+          type: string
+          nullable: true
+        sales_channel_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        sales_channel_name:
+          type: string
+          nullable: true
+        price_amount:
+          type: string
+          nullable: true
+        promotional_price_amount:
+          type: string
+          nullable: true
+        has_variants:
+          type: boolean
+        is_available:
+          type: boolean
+        available_quantity:
+          type: integer
+          nullable: true
+        currency_code:
+          type: string
+          nullable: true
+        created_at:
+          $ref: '#/components/schemas/Timestamp'
+        updated_at:
+          $ref: '#/components/schemas/Timestamp'
+
+    ProductDetail:
+      allOf:
+        - $ref: '#/components/schemas/Product'
+        - type: object
+          additionalProperties: false
+          properties:
+            category_path:
+              type: string
+              nullable: true
+            description_html:
+              type: string
+              nullable: true
+            promotional_price_start_at:
+              $ref: '#/components/schemas/Timestamp'
+              nullable: true
+            promotional_price_end_at:
+              $ref: '#/components/schemas/Timestamp'
+              nullable: true
+            has_promotional_price:
+              type: boolean
+            variant_options:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+            variants:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+
+    ProductCollectionResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+        - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        meta:
+          $ref: '#/components/schemas/CollectionMeta'
+
+    PropertyInvestment:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - type
+        - name
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicId'
+        type:
+          type: string
+          enum: [property_investments]
+        name:
+          type: string
+        status:
+          type: string
+          nullable: true
+        organization_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        organization_name:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        street:
+          type: string
+          nullable: true
+        building_no:
+          type: string
+          nullable: true
+        postal_code:
+          type: string
+          nullable: true
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        created_at:
+          $ref: '#/components/schemas/Timestamp'
+        updated_at:
+          $ref: '#/components/schemas/Timestamp'
+
+    PropertyInvestmentCollectionResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+        - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyInvestment'
+        meta:
+          $ref: '#/components/schemas/CollectionMeta'
+
+    PropertyInvestmentDetail:
+      allOf:
+        - $ref: '#/components/schemas/PropertyInvestment'
+        - type: object
+          additionalProperties: false
+          properties:
+            slug:
+              type: string
+              nullable: true
+            list_signature:
+              type: string
+              nullable: true
+            distinction:
+              type: string
+              nullable: true
+            code:
+              type: string
+              nullable: true
+            description:
+              type: string
+              nullable: true
+            meta_title:
+              type: string
+              nullable: true
+            meta_description:
+              type: string
+              nullable: true
+            organization_ids:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublicId'
+            organizations:
+              type: array
+              items:
+                type: object
+                additionalProperties: false
+                properties:
+                  id:
+                    $ref: '#/components/schemas/PublicId'
+                  name:
+                    type: string
+                  system_name:
+                    type: string
+                    nullable: true
+            investor_organization_id:
+              allOf:
+                - $ref: '#/components/schemas/PublicId'
+              nullable: true
+            investor_organization_name:
+              type: string
+              nullable: true
+            investor_organization_system_name:
+              type: string
+              nullable: true
+            province:
+              type: string
+              nullable: true
+            county:
+              type: string
+              nullable: true
+            commune:
+              type: string
+              nullable: true
+            district:
+              type: string
+              nullable: true
+            country_code:
+              type: string
+              nullable: true
+            latitude:
+              type: string
+              nullable: true
+            longitude:
+              type: string
+              nullable: true
+            location_description:
+              type: string
+              nullable: true
+            google_maps_url:
+              type: string
+              nullable: true
+            units_count:
+              type: integer
+            availability_units_count:
+              type: integer
+            availability_units_by_status:
+              type: object
+              additionalProperties:
+                type: integer
+            availability_value_by_status:
+              type: object
+              additionalProperties:
+                type: string
+                nullable: true
+            units_currency_code:
+              type: string
+              nullable: true
+            total_units_value_amount:
+              type: string
+              nullable: true
+            total_units_usable_area:
+              type: string
+              nullable: true
+            average_price_per_square_meter_amount:
+              type: string
+              nullable: true
+            sold_units_value_amount:
+              type: string
+              nullable: true
+            unit_type_breakdown:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+
+    PropertyBuilding:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - type
+        - name
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicId'
+        type:
+          type: string
+          enum: [property_buildings]
+        name:
+          type: string
+        status:
+          type: string
+          nullable: true
+        property_investment_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        property_investment_name:
+          type: string
+          nullable: true
+        units_count:
+          type: integer
+        created_at:
+          $ref: '#/components/schemas/Timestamp'
+        updated_at:
+          $ref: '#/components/schemas/Timestamp'
+
+    PropertyBuildingCollectionResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+        - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyBuilding'
+        meta:
+          $ref: '#/components/schemas/CollectionMeta'
+
+    PropertyBuildingDetail:
+      allOf:
+        - $ref: '#/components/schemas/PropertyBuilding'
+        - type: object
+          additionalProperties: false
+          properties:
+            organization_ids:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublicId'
+            organization_names:
+              type: array
+              items:
+                type: string
+            availability_units_count:
+              type: integer
+            availability_units_by_status:
+              type: object
+              additionalProperties:
+                type: integer
+
+    PropertyUnit:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - type
+        - number
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicId'
+        type:
+          type: string
+          enum: [property_units]
+        organization_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        organization_name:
+          type: string
+          nullable: true
+        property_investment_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        property_investment_name:
+          type: string
+          nullable: true
+        property_building_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        property_building_name:
+          type: string
+          nullable: true
+        number:
+          type: string
+        status:
+          type: string
+          nullable: true
+        availability_status:
+          type: string
+          nullable: true
+        floor:
+          type: integer
+          nullable: true
+        room_count:
+          type: integer
+          nullable: true
+        usable_area:
+          type: string
+          nullable: true
+        currency_code:
+          type: string
+          nullable: true
+        price_amount:
+          type: string
+          nullable: true
+        created_at:
+          $ref: '#/components/schemas/Timestamp'
+        updated_at:
+          $ref: '#/components/schemas/Timestamp'
+
+    PropertyUnitCollectionResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+        - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyUnit'
+        meta:
+          $ref: '#/components/schemas/CollectionMeta'
+
+    PropertyUnitDetail:
+      allOf:
+        - $ref: '#/components/schemas/PropertyUnit'
+        - type: object
+          additionalProperties: false
+          properties:
+            property_unit_type_id:
+              allOf:
+                - $ref: '#/components/schemas/PublicId'
+              nullable: true
+            property_unit_type_name:
+              type: string
+              nullable: true
+            total_area:
+              type: string
+              nullable: true
+            garden_area:
+              type: string
+              nullable: true
+            terrace_area:
+              type: string
+              nullable: true
+            balcony_area:
+              type: string
+              nullable: true
+            description_html:
+              type: string
+              nullable: true
+            presented_price_amount:
+              type: string
+              nullable: true
+            presented_price_per_square_meter_amount:
+              type: string
+              nullable: true
+            presented_price_breakdown:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+            is_for_sale:
+              type: boolean
+            is_for_rent:
+              type: boolean
+            promotional_price_amount:
+              type: string
+              nullable: true
+            promotional_price_start_at:
+              $ref: '#/components/schemas/Timestamp'
+              nullable: true
+            promotional_price_end_at:
+              $ref: '#/components/schemas/Timestamp'
+              nullable: true
+            has_promotional_price:
+              type: boolean
+
+    LeadSource:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - type
+        - name
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicId'
+        type:
+          type: string
+          enum: [lead_sources]
+        organization_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        organization_name:
+          type: string
+          nullable: true
+        name:
+          type: string
+        status:
+          type: string
+          nullable: true
+        is_default:
+          type: boolean
+        created_at:
+          $ref: '#/components/schemas/Timestamp'
+        updated_at:
+          $ref: '#/components/schemas/Timestamp'
+
+    LeadSourceCollectionResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+        - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeadSource'
+        meta:
+          $ref: '#/components/schemas/CollectionMeta'
+
+    SalesChannel:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - type
+        - name
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicId'
+        type:
+          type: string
+          enum: [sales_channels]
+        organization_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        organization_name:
+          type: string
+          nullable: true
+        name:
+          type: string
+        status:
+          type: string
+          nullable: true
+        is_default:
+          type: boolean
+        created_at:
+          $ref: '#/components/schemas/Timestamp'
+        updated_at:
+          $ref: '#/components/schemas/Timestamp'
+
+    SalesChannelCollectionResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+        - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SalesChannel'
+        meta:
+          $ref: '#/components/schemas/CollectionMeta'
+
+    CreateLeadRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - contact_name
+      properties:
+        organization_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        sales_channel_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        lead_source_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        interested_product_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        interested_product_variant_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        interested_property_investment_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        interested_property_unit_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        contact_name:
+          type: string
+        contact_type:
+          type: string
+          nullable: true
+        contact_first_name:
+          type: string
+          nullable: true
+        contact_last_name:
+          type: string
+          nullable: true
+        contact_phone:
+          type: string
+          nullable: true
+        contact_email:
+          type: string
+          format: email
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+
+    Lead:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - type
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicId'
+        type:
+          type: string
+          enum: [leads]
+        organization_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        organization_name:
+          type: string
+          nullable: true
+        sales_channel_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        sales_channel_name:
+          type: string
+          nullable: true
+        lead_source_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        lead_source_name:
+          type: string
+          nullable: true
+        interested_product_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        interested_product_name:
+          type: string
+          nullable: true
+        interested_product_variant_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        interested_product_variant_name:
+          type: string
+          nullable: true
+        interested_property_investment_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        interested_property_investment_name:
+          type: string
+          nullable: true
+        interested_property_unit_id:
+          allOf:
+            - $ref: '#/components/schemas/PublicId'
+          nullable: true
+        interested_property_unit_number:
+          type: string
+          nullable: true
+        contact_name:
+          type: string
+          nullable: true
+        contact_email:
+          type: string
+          format: email
+          nullable: true
+        contact_phone:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+        created_at:
+          $ref: '#/components/schemas/Timestamp'
+        updated_at:
+          $ref: '#/components/schemas/Timestamp'
