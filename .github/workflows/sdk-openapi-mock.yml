@@ -36,7 +36,9 @@ jobs:
       - name: Wait for mock server
         run: |
           for i in $(seq 1 20); do
-            if curl -fsS http://127.0.0.1:4010/public/v1/investments >/tmp/prism.out 2>/tmp/prism.err; then
+            if curl -fsS \
+              -H 'X-Zoya-Api-Key: prism-test-token' \
+              http://127.0.0.1:4010/public/v1/investments >/tmp/prism.out 2>/tmp/prism.err; then
               exit 0
             fi
             sleep 1
@@ -47,7 +49,9 @@ jobs:
 
       - name: Smoke test list endpoint
         run: |
-          curl -fsS http://127.0.0.1:4010/public/v1/investments > /tmp/investments.json
+          curl -fsS \
+            -H 'X-Zoya-Api-Key: prism-test-token' \
+            http://127.0.0.1:4010/public/v1/investments > /tmp/investments.json
           grep '"data"' /tmp/investments.json
 
       - name: Smoke test create endpoint
@@ -55,6 +59,7 @@ jobs:
           curl -fsS \
             -X POST \
             -H 'Content-Type: application/json' \
+            -H 'X-Zoya-Api-Key: prism-test-token' \
             -d '{"contact_name":"Jan Kowalski"}' \
             http://127.0.0.1:4010/public/v1/leads > /tmp/leads.json
           grep '"id"' /tmp/leads.json
