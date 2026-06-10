@@ -89,7 +89,6 @@ $client = ZoyaClientFactory::make(
     apiToken: $apiToken,
     environment: ZoyaEnvironment::Production,
     apiVersion: 'v1',
-    userAgent: 'zoya-sdk-playground/0.1',
 );
 
 $investments = $client->listPropertyInvestments([

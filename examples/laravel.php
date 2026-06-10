@@ -11,7 +11,6 @@ $client = ZoyaClientFactory::make(
         ? ZoyaEnvironment::Production
         : ZoyaEnvironment::Development,
     apiVersion: 'v1',
-    userAgent: 'zoya-laravel-app/0.1',
 );
 
 $response = $client->listPropertyInvestments([

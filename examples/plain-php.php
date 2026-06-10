@@ -17,7 +17,6 @@ $client = ZoyaClientFactory::make(
     apiToken: $apiToken,
     environment: ZoyaEnvironment::Production,
     apiVersion: 'v1',
-    userAgent: 'zoya-sdk-example/0.1',
 );
 
 $response = $client->listLeadSources();
