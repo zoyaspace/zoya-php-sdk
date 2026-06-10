@@ -144,8 +144,8 @@ The SDK supports only the official public API environments and always builds req
 
 The public API version is configured separately:
 
-- `apiVersion: 'v1'` -> requests are sent to `/public/v1/...`
-- `apiVersion: 'v2'` -> requests would be sent to `/public/v2/...`
+- `apiVersion: 'v1'` -> requests are sent to `/api/public/v1/...`
+- `apiVersion: 'v2'` -> requests would be sent to `/api/public/v2/...`
 
 Example:
 
@@ -160,7 +160,7 @@ ZoyaClientFactory::make(
 That means `listLeadSources()` targets:
 
 ```text
-https://api-dev.zoyaspace.com/public/v1/lead-sources
+https://api-dev.zoyaspace.com/api/public/v1/lead-sources
 ```
 
 For normal usage, the SDK user should choose one of the supported environments and an API version instead of passing custom server URLs. `baseUrlOverride` exists only for local SDK development, mock servers, and contract testing.

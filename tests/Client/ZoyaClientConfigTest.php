@@ -16,7 +16,7 @@ final class ZoyaClientConfigTest extends TestCase
     {
         $config = new ZoyaClientConfig();
 
-        self::assertSame('https://api.zoyaspace.com/public/v1', $config->baseUri());
+        self::assertSame('https://api.zoyaspace.com/api/public/v1', $config->baseUri());
         self::assertSame(UserAgent::default(), $config->userAgent);
     }
 
@@ -24,7 +24,7 @@ final class ZoyaClientConfigTest extends TestCase
     {
         $config = new ZoyaClientConfig(environment: ZoyaEnvironment::Development);
 
-        self::assertSame('https://api-dev.zoyaspace.com/public/v1', $config->baseUri());
+        self::assertSame('https://api-dev.zoyaspace.com/api/public/v1', $config->baseUri());
     }
 
     public function testItAllowsChangingThePublicApiVersion(): void
@@ -34,7 +34,7 @@ final class ZoyaClientConfigTest extends TestCase
             apiVersion: 'v2',
         );
 
-        self::assertSame('https://api.zoyaspace.com/public/v2', $config->baseUri());
+        self::assertSame('https://api.zoyaspace.com/api/public/v2', $config->baseUri());
     }
 
     public function testItAllowsABaseUrlOverrideForMockingAndContractTests(): void

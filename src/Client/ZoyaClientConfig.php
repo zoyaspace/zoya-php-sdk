@@ -46,6 +46,6 @@ final readonly class ZoyaClientConfig
             return rtrim($this->baseUrlOverride, '/');
         }
 
-        return rtrim($this->environment->apiHost(), '/') . '/public/' . $this->apiVersion;
+        return rtrim($this->environment->apiHost(), '/') . '/api/public/' . $this->apiVersion;
     }
 }

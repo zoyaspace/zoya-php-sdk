@@ -8,9 +8,9 @@ info:
     backend contract discussions, and mock-server based integration testing.
 
 servers:
-  - url: https://api.zoyaspace.com/public/v1
+  - url: https://api.zoyaspace.com/api/public/v1
     description: Production public API
-  - url: https://api-dev.zoyaspace.com/public/v1
+  - url: https://api-dev.zoyaspace.com/api/public/v1
     description: Development public API
 
 security:
